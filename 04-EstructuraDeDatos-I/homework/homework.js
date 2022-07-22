@@ -15,10 +15,45 @@ Como ejercicio adicional y completamente opcional, al terminar de resolver este 
 */
 
 function nFactorial(n) {
+  if (n==0 || n==1) return 1
+  else if (n < 0) return 0;
+  else return n * nFactorial(n-1);
 }
+/*
+function nFactorial(n) {
+  return n === 0 ? 1 : n * nFactorial(n - 1);
+}*/
+
+/*
+function facto (n) {
+  let prod =1;
+  for (let i=n ; i>1 ; i--){
+    prod*=i;
+  }
+  return prod;
+}
+*/
+
 
 function nFibonacci(n) {
+  if (n === 0) return 0;
+  else if (n === 1 || n === 2)return 1;
+  else return (nFibonacci(n-2) + nFibonacci(n-1));
+}            
+
+
+function fibo (n){
+	if (n === 0) return 0;
+  else if (n === 1 || n === 2)return 1;
+  else {
+    let serie = [0,1,1]
+    for (i=3; i <= (n); i++){
+      serie.push((serie[i-1]+serie[i-2]));
+    }
+    return serie[n];
+  } 
 }
+
 
 /*
 Implementar la clase Queue, sabiendo que es una estructura de tipo FIFO, donde el primer elemento que ingresa es el primero que se quita. Definir los siguientes métodos:
@@ -29,9 +64,24 @@ Implementar la clase Queue, sabiendo que es una estructura de tipo FIFO, donde e
 Pueden utilizar class o función constructora.
 */
 
-function Queue() {
-
+class Queue {
+  constructor(){  
+  	this.cola = [];
+  }
+ 	enqueue = function(elem){
+    this.cola.push(elem);
+  } 
+  dequeue = function(){
+    if (this.cola.length === 0) return undefined
+    return this.cola.shift();
+  } 
+  size = function(){
+    return this.cola.length;
+  }
 }
+
+
+
 
 // No modifiquen nada debajo de esta linea
 // --------------------------------
