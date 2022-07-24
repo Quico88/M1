@@ -11,9 +11,93 @@ Implementar la clase LinkedList, definiendo los siguientes métodos:
   En caso de que la búsqueda no arroje resultados, search debe retornar null.
 */
 
-function LinkedList() {}
+function LinkedList() {
+  this.head = null;
+};
 
-function Node(value) {}
+function Node(value) {
+  this.value = value;
+  this.next = null;
+};
+
+LinkedList.prototype.add = function (info) {
+  let nuevoNodo = new Node (info);
+  let estaPos = this.head;
+  if (!estaPos){
+    this.head = nuevoNodo;
+    //return nuevoNodo;
+  }
+  else {
+    while (estaPos.next){
+      estaPos = estaPos.next;
+  	}
+    estaPos.next = nuevoNodo;
+    //return nuevoNodo;
+    }
+};
+
+LinkedList.prototype.remove = function () {
+  let estaPos = this.head;
+  if (!estaPos) return null;
+  else if (!estaPos.next){
+      let valor = estaPos.value;
+    	this.head = null;
+    	return valor;
+  }
+  else {
+    let siguientePos = estaPos.next;
+    while (siguientePos.next){
+      estaPos = estaPos.next;
+      siguientePos = siguientePos.next;
+  	}
+    let valor = siguientePos.value;
+    estaPos.next = null;
+    return valor;
+  }
+};
+
+LinkedList.prototype.search = function (info) {
+  let estaPos = this.head;
+  if (!estaPos){
+    return null;
+  }
+  else {
+    while (estaPos){
+      if (typeof(info)==='function'){
+        if (info(estaPos.value)) return estaPos.value;
+      }
+      else if (estaPos.value === info ) return info;
+      estaPos = estaPos.next;
+    }
+    return null;
+    }
+};
+
+LinkedList.prototype.removePos = function (donde) {
+  let pos = 0;
+  let estaPos = this.head;
+  if (!estaPos) return null;
+  else {
+    if (donde === 0){
+      this.head = estaPos.next;
+    }
+    else{
+    	while (estaPos.next && pos < donde-1){
+      	estaPos = estaPos.next;
+      	pos++;
+  		}
+      if (estaPos.next === null){
+        console.log('La lista no tiene ese elemento, elija un número menor');
+        return null;
+      }
+      else estaPos.next = estaPos.next.next;
+    }
+	} 
+};
+
+
+
+
 
 /*
 Implementar la clase HashTable.
@@ -30,7 +114,95 @@ La clase debe tener los siguientes métodos:
 Ejemplo: supongamos que quiero guardar {instructora: 'Ani'} en la tabla. Primero puedo chequear, con hasKey, si ya hay algo en la tabla con el nombre 'instructora'; luego, invocando set('instructora', 'Ani'), se almacenará el par clave-valor en un bucket específico (determinado al hashear la clave)
 */
 
-function HashTable() {}
+function HashTable() {
+  this.locker = [];  
+  this.numBuckets = 35;
+}
+
+HashTable.prototype.hash = function(key){
+  let suma = 0;
+  for(let i = 0; i < key.length ; i++){
+    suma += key.charCodeAt(i);  
+  }
+  return suma % this.numBuckets;
+
+}
+
+HashTable.prototype.set = function(clave,valor) {
+  if(typeof(clave) !== 'string') throw new TypeError('Keys must be strings');
+  let cajon = this.hash(clave);
+  if (!this.locker[cajon]) this.locker[cajon] = {};
+  this.locker[cajon][clave] = valor;
+}
+
+HashTable.prototype.get = function(clave){
+  let cajon = this.hash(clave);
+	if (this.locker[cajon]) return this.locker[cajon][clave];
+  else return null;
+}
+
+HashTable.prototype.hasKey = function(clave){
+  let cajon = this.hash(clave);
+  if (!this.locker[cajon]) return false;
+  else return (this.locker[cajon].hasOwnProperty(clave));
+  
+}
+
+/* La re compliqué! En esta versión, cada par key-value es un objeto disstinto, y el bucket es un arreglo de objetos.
+
+HashTable.prototype.set = function(clave,valor){
+  if(typeof(clave) !== 'string') throw new TypeError('Keys must be strings');
+  let pos = this.hash(clave);
+  if (!this.tabla[pos]) this.tabla[pos] = {[clave]: valor};
+  else if (!this.tabla[pos].length){
+      if (this.tabla[pos][clave]) this.tabla[pos][clave] = valor;
+      else{
+        let valor1 = this.tabla[pos];
+        this.tabla[pos] = [valor1];
+        this.tabla[pos].push({[clave]: valor});
+      }
+  }
+  else{
+    let flag = 0;
+    for (let i = 0; i < this.tabla[pos].length ; i++){
+     	if (this.tabla[pos][i][clave]){
+        this.tabla[pos][i][clave] = valor;
+        flag =1;
+    	}
+    }
+    if (flag ===0)  this.tabla[pos].push({[clave]: valor});
+  }
+  
+}
+
+HashTable.prototype.get = function(key){
+  let pos = this.hash(key);
+  if (!this.tabla[pos].length) return this.tabla[pos][key];
+  else {
+    for (let i = 0; i < this.tabla[pos].length ; i++){
+      if (this.tabla[pos][i][key]) return this.tabla[pos][i][key];
+  	}
+	}
+}
+
+HashTable.prototype.hasKey = function(key){
+  let pos = this.hash(key);
+  if (!this.tabla[pos]) return false;
+  else if (!this.tabla[pos].length) return (!!this.tabla[pos][key])
+  else{
+    let flag = 0;
+    for (let i = 0; i < this.tabla[pos].length ; i++){
+      if (this.tabla[pos][i][key]) flag =1;
+    }
+    if (flag === 1) return true;
+    else return false;
+  }
+}
+
+  */
+
+
+
 
 // No modifiquen nada debajo de esta linea
 // --------------------------------
