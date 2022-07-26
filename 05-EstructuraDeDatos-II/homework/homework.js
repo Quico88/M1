@@ -64,6 +64,7 @@ LinkedList.prototype.search = function (info) {
   else {
     while (estaPos){
       if (typeof(info)==='function'){
+        // otras opción, si no es funcion, genero un callback que me retorne true si es igual al valor, y recorro la lista con el mismo while viendo lalmando a la funcion
         if (info(estaPos.value)) return estaPos.value;
       }
       else if (estaPos.value === info ) return info;

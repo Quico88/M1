@@ -20,11 +20,16 @@ function nFactorial(n) {
   else return n * nFactorial(n-1);
 }
 /*
+
+VERSION CORTA:
+
 function nFactorial(n) {
   return n === 0 ? 1 : n * nFactorial(n - 1);
 }*/
 
 /*
+USANDO FOR:
+
 function facto (n) {
   let prod =1;
   for (let i=n ; i>1 ; i--){
@@ -36,24 +41,33 @@ function facto (n) {
 
 
 function nFibonacci(n) {
-  if (n === 0) return 0;
+  if (n < 0) return 'Error';
   else if (n === 1 || n === 2)return 1;
   else return (nFibonacci(n-2) + nFibonacci(n-1));
-}            
+}             
+ 
+/*
+  Versión corta:
 
+function fibo (n){
+  return n<=2 ? 1 : fibo(n-1) + fibo (n-2);
+}*/
+
+/*
+Usando for:
 
 function fibo (n){
 	if (n === 0) return 0;
   else if (n === 1 || n === 2)return 1;
   else {
-    let serie = [0,1,1]
-    for (i=3; i <= (n); i++){
+    let serie = [0,1]
+    for (i=2; i <= (n); i++){
       serie.push((serie[i-1]+serie[i-2]));
     }
     return serie[n];
   } 
 }
-
+*/
 
 /*
 Implementar la clase Queue, sabiendo que es una estructura de tipo FIFO, donde el primer elemento que ingresa es el primero que se quita. Definir los siguientes métodos:
